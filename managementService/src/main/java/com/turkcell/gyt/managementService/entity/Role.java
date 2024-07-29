@@ -1,0 +1,35 @@
+package com.turkcell.gyt.managementService.entity;
+
+import com.turkcell.gyt.managementService.core.entity.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Set;
+import java.util.UUID;
+
+@Entity
+@Table(name="roles")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class Role extends BaseEntity<UUID> implements GrantedAuthority {
+    @Column(name = "name")
+    private String name;
+
+    @ManyToMany(mappedBy = "authorities")
+    private Set<User> users;
+
+    @Override
+    public String getAuthority() {
+        return name.toLowerCase();
+    }
+
+}
