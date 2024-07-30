@@ -5,9 +5,9 @@ import com.turkcell.gyt.managementService.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(config = MapstructureService.class)
 public interface UserMapper {
-    @Mapping(source = "email", target = "email")
+    
     User registerRequestToUserEntity(RegisterRequest request);
 
 

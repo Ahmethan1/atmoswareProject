@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("managementservice/api/v1/users")
 public class UserController {
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public void register(@RequestBody RegisterRequest request) {
         userService.register(request);
     }

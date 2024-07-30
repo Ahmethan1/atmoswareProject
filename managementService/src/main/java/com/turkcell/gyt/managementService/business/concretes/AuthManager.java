@@ -1,11 +1,11 @@
 package com.turkcell.gyt.managementService.business.concretes;
 
+import com.atmosware.core.utils.JwtService;
 import com.turkcell.gyt.managementService.business.abstracts.AuthService;
 import com.turkcell.gyt.managementService.business.abstracts.RefreshTokenService;
 import com.turkcell.gyt.managementService.business.abstracts.UserService;
 import com.turkcell.gyt.managementService.business.messages.AuthMessages;
 import com.turkcell.gyt.managementService.core.dtos.request.LoginRequest;
-import com.turkcell.gyt.managementService.core.service.JwtService;
 import com.turkcell.gyt.managementService.core.utilitiy.exceptions.types.BusinessException;
 
 import com.turkcell.gyt.managementService.entity.RefreshToken;
@@ -54,7 +54,7 @@ public class AuthManager implements AuthService {
         Map<String,Object> claims =new HashMap<>();
         claims.put("username",user.getUsername());
         claims.put("id",user.getId());
-        return jwtService.generateToken(claims,user.getUsername());
+        return jwtService.generateToken(user.getUsername(),claims);
 
     }
 }
