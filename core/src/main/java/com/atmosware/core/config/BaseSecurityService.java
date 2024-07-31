@@ -16,10 +16,10 @@ public class BaseSecurityService {
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
-            "/managementservice/api/v1/login/**",
-            "/managementservice/api/v1/users/register",
+            "/api/v1/auth/**",
+            "/managementservice/api/v1/auth/**",
             "/managementservice/api/v1/users/**",
-            "/managementservice/api/v1/auth/**"
+            "/managementservice/api/v1/roles/**"
     };
 
     public HttpSecurity configureCoreSecurity(HttpSecurity httpSecurity) throws Exception

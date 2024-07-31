@@ -3,6 +3,7 @@ package com.turkcell.gyt.managementService.business.concretes;
 import com.turkcell.gyt.managementService.business.abstracts.UserService;
 import com.turkcell.gyt.managementService.business.messages.AuthMessages;
 import com.turkcell.gyt.managementService.core.dtos.request.RegisterRequest;
+import com.turkcell.gyt.managementService.core.dtos.response.CreatedRegisterResponse;
 import com.turkcell.gyt.managementService.core.utilitiy.exceptions.types.BusinessException;
 import com.turkcell.gyt.managementService.core.utilitiy.mapper.UserMapper;
 import com.turkcell.gyt.managementService.dataAccess.UserRepository;
@@ -24,12 +25,13 @@ public class UserManager implements UserService {
     private PasswordEncoder passwordEncoder;
     private UserMapper mapper;
     @Override
-    public void register(RegisterRequest request) {
+    public CreatedRegisterResponse register(RegisterRequest request) {
         User user = this.mapper.registerRequestToUserEntity(request);
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         user.setPassword(encodedPassword);
         user.setCreatedDate(LocalDateTime.now());
         userRepository.save(user);
+        return this.mapper.userToCreatedRegisterResponse(user);
 
     }
 

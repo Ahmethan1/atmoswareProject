@@ -28,6 +28,7 @@ public class RefreshTokenManager implements RefreshTokenService {
     public RefreshToken verifyRefreshToken(String token) {
         RefreshToken refreshToken=refreshTokenRepository
                 .findByToken(token)
+
                 .orElseThrow(()->new BusinessException("Refresh token not found"));
 
         //Tüm şartlar sağlanırsa
