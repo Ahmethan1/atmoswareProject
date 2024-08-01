@@ -1,16 +1,15 @@
-package com.turkcell.gyt.managementService.core.dtos.response;
+package com.turkcell.gyt.managementService.core.dtos.response.role;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class CreatedRoleResponse {
+@Data
+public class GetByIdRoleResponse {
     private UUID id;
     private String name;
 }

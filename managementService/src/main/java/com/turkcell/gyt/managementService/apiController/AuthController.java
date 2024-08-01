@@ -1,14 +1,11 @@
 package com.turkcell.gyt.managementService.apiController;
 
 import com.turkcell.gyt.managementService.business.abstracts.AuthService;
-import com.turkcell.gyt.managementService.core.dtos.request.LoginRequest;
+import com.turkcell.gyt.managementService.core.dtos.request.user.LoginRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,5 @@
-package com.turkcell.gyt.managementService.core.dtos.response;
+package com.turkcell.gyt.managementService.core.dtos.request.user;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CreatedRegisterResponse {
+public class RegisterRequest {
     private String email;
+    private String password;
 }

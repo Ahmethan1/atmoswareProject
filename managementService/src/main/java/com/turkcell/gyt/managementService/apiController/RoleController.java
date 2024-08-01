@@ -1,15 +1,13 @@
 package com.turkcell.gyt.managementService.apiController;
 
 import com.turkcell.gyt.managementService.business.abstracts.RoleService;
-import com.turkcell.gyt.managementService.core.dtos.request.CreateRoleRequest;
-import com.turkcell.gyt.managementService.core.dtos.response.CreatedRoleResponse;
-import com.turkcell.gyt.managementService.core.dtos.response.GetByIdRoleResponse;
+import com.turkcell.gyt.managementService.core.dtos.request.role.CreateRoleRequest;
+import com.turkcell.gyt.managementService.core.dtos.response.role.CreatedRoleResponse;
+import com.turkcell.gyt.managementService.core.dtos.response.role.GetByIdRoleResponse;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.UUID;
 
 @RestController

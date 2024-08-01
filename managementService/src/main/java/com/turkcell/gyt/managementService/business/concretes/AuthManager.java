@@ -5,7 +5,7 @@ import com.turkcell.gyt.managementService.business.abstracts.AuthService;
 import com.turkcell.gyt.managementService.business.abstracts.RefreshTokenService;
 import com.turkcell.gyt.managementService.business.abstracts.UserService;
 import com.turkcell.gyt.managementService.business.messages.AuthMessages;
-import com.turkcell.gyt.managementService.core.dtos.request.LoginRequest;
+import com.turkcell.gyt.managementService.core.dtos.request.user.LoginRequest;
 import com.turkcell.gyt.managementService.core.utilitiy.exceptions.types.BusinessException;
 
 import com.turkcell.gyt.managementService.entity.RefreshToken;
@@ -14,15 +14,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
