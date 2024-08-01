@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-@EnableWebSecurity
 public class BaseSecurityService {
     private final JwtAuthFilter jwtAuthFilter;
     private static final String[] WHITE_LIST_URLS = {
             "/swagger-ui/**",
+            "/v1/api-docs",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
-            "/api/v1/auth/**",
-            "/managementservice/api/v1/auth/**",
-            "/managementservice/api/v1/users/**"
+            "/managementservice/api/v1/auth/login",
+            "/questionservice/api/v1/questions/getAll"
+
     };
 
     public HttpSecurity configureCoreSecurity(HttpSecurity httpSecurity) throws Exception
