@@ -7,6 +7,7 @@ import com.turkcell.gyt.questionService.business.dtos.option.response.CreatedOpt
 import com.turkcell.gyt.questionService.business.dtos.option.response.GetAllOptionResponse;
 import com.turkcell.gyt.questionService.business.dtos.option.response.GetByIdOptionResponse;
 import com.turkcell.gyt.questionService.business.dtos.option.response.UpdatedOptionResponse;
+import com.turkcell.gyt.questionService.business.rules.OptionBusinessRules;
 import com.turkcell.gyt.questionService.core.utility.mapper.OptionMapper;
 import com.turkcell.gyt.questionService.dataAccess.OptionRepository;
 import com.turkcell.gyt.questionService.entity.OptionEntity;
@@ -24,8 +25,11 @@ import java.util.stream.Collectors;
 public class OptionManager implements OptionService {
     private OptionRepository optionRepository;
     private OptionMapper optionMapper;
+    private OptionBusinessRules optionBusinessRules;
+
     @Override
     public CreatedOptionResponse add(CreateOptionRequest createOptionRequest) {
+
         OptionEntity optionEntity = this.optionMapper.createOptionRequestToOptionEntity(createOptionRequest);
         OptionEntity savedOption = this.optionRepository.save(optionEntity);
 
@@ -34,7 +38,7 @@ public class OptionManager implements OptionService {
 
     @Override
     public List<GetAllOptionResponse> getAll() {
-        List<OptionEntity> optionEntities = this.optionRepository.findAll();
+        List<OptionEntity> optionEntities = this.optionRepository.findByDeletedDateIsNull();
 
         return optionEntities.stream()
                 .map(this.optionMapper::optionEntityToGetAllOptionResponse)
@@ -43,6 +47,8 @@ public class OptionManager implements OptionService {
 
     @Override
     public UpdatedOptionResponse update(UpdateOptionRequest updateOptionRequest) {
+        this.optionBusinessRules.isCatalogAlreadyDeleted(updateOptionRequest.getId());
+
         OptionEntity optionEntity = this.optionMapper.updatedOptionRequestToOptionEntity(updateOptionRequest);
         optionEntity.setUpdatedDate(LocalDateTime.now());
 
@@ -53,14 +59,21 @@ public class OptionManager implements OptionService {
 
     @Override
     public GetByIdOptionResponse getById(UUID id) {
-        Optional<OptionEntity> optionEntity = this.optionRepository.findById(id);
+         this.optionBusinessRules.isCatalogAlreadyDeleted(id);
 
-        return this.optionMapper.optionEntityToGetByIdOptionResponse(optionEntity.get());
+         Optional<OptionEntity> optionEntity= this.optionRepository.findById(id);
+
+         return this.optionMapper.optionEntityToGetByIdOptionResponse(optionEntity.get());
+
     }
 
     @Override
     public void delete(UUID id) {
-        this.optionRepository.deleteById(id);
+        OptionEntity optionEntity = this.optionBusinessRules.isCatalogAlreadyDeleted(id);
+        optionEntity.setDeletedDate(LocalDateTime.now());
+
+        this.optionRepository.save(optionEntity);
+
 
     }
 }

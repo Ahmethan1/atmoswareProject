@@ -40,7 +40,7 @@ public class QuestionManager implements QuestionService {
 
     @Override
     public List<GetAllQuestionResponse> getAll() {
-        List<QuestionEntity> questionEntityList = this.questionRepository.findAll();
+        List<QuestionEntity> questionEntityList = this.questionRepository.findByDeletedDateIsNull();
 
         return questionEntityList.stream()
                 .map(this.questionMapper::questionEntityToGetAllQuestionResponse)
@@ -62,7 +62,7 @@ public class QuestionManager implements QuestionService {
 
     @Override
     public GetByIdQuestionResponse getById(UUID id) {
-        this.questionBusinessRules.isQuestionExistById(id);
+        this.questionBusinessRules.isCatalogAlreadyDeleted(id);
 
         Optional<QuestionEntity> questionEntity = this.questionRepository.findById(id);
 
@@ -71,8 +71,10 @@ public class QuestionManager implements QuestionService {
 
     @Override
     public void delete(UUID id) {
+        QuestionEntity questionEntity = this.questionBusinessRules.isCatalogAlreadyDeleted(id);
+        questionEntity.setDeletedDate(LocalDateTime.now());
 
-        this.questionRepository.deleteById(id);
+        this.questionRepository.save(questionEntity);
 
     }
 }

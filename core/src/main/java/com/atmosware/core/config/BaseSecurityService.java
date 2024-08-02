@@ -19,7 +19,8 @@ public class BaseSecurityService {
             "/v3/api-docs",
             "/v3/api-docs/**",
             "/managementservice/api/v1/auth/login",
-            "/questionservice/api/v1/questions/getAll"
+            "/questionservice/api/v1/questions/getAll",
+            "/managementservice/api/v1/users/register"
 
     };
 
