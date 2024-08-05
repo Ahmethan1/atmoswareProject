@@ -18,6 +18,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "options")
 public class OptionEntity extends BaseEntity<UUID> {
+
     private String descriptionOption;
     private String imageUrl;
     private boolean isCorrect;

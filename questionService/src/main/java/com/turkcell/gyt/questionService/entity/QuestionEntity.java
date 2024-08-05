@@ -19,9 +19,12 @@ import java.util.UUID;
 @Table(name = "questions")
 public class QuestionEntity extends BaseEntity<UUID> {
     private UUID userId;
+    private String userRole;
     private String description;
     private int optionCount;
     private String imageUrl;
+    private Status status;
+
     @OneToMany(mappedBy = "questionEntity")
     private List<OptionEntity> options;
 }

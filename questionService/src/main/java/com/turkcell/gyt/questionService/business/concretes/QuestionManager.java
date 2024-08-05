@@ -1,6 +1,8 @@
 package com.turkcell.gyt.questionService.business.concretes;
 
 
+import com.atmosware.core.utils.JwtService;
+import com.turkcell.gyt.questionService.business.abstracts.OptionService;
 import com.turkcell.gyt.questionService.business.abstracts.QuestionService;
 import com.turkcell.gyt.questionService.business.dtos.question.request.CreateQuestionRequest;
 import com.turkcell.gyt.questionService.business.dtos.question.request.UpdateQuestionRequest;
@@ -12,9 +14,12 @@ import com.turkcell.gyt.questionService.business.rules.QuestionBusinessRules;
 import com.turkcell.gyt.questionService.core.utility.mapper.QuestionMapper;
 import com.turkcell.gyt.questionService.dataAccess.QuestionRepository;
 import com.turkcell.gyt.questionService.entity.QuestionEntity;
+import com.turkcell.gyt.questionService.entity.Status;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,19 +28,38 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionManager implements QuestionService {
-    private QuestionRepository questionRepository;
-    private QuestionMapper questionMapper;
-    private QuestionBusinessRules questionBusinessRules;
+    private final QuestionRepository questionRepository;
+    private final QuestionMapper questionMapper;
+    private final QuestionBusinessRules questionBusinessRules;
+    private final JwtService jwtService;
+    private final OptionService optionService;
 
     @Override
     @Transactional
-    public CreatedQuestionRespnose add(CreateQuestionRequest createQuestionRequest) {
+    public CreatedQuestionRespnose add(CreateQuestionRequest createQuestionRequest, HttpServletRequest request) {
+
+        String token = extractJwtFromRequest(request);
+        List<String> roles = this.jwtService.extractRoles(token);
+        String userId = this.jwtService.extractUserId(token);
+
         QuestionEntity questionEntity = this.questionMapper.createQuestionRequestToQuestionEntity(createQuestionRequest);
+        questionEntity.setUserRole(roles.get(0));
+        questionEntity.setStatus(Status.AVAILABLE);
+        questionEntity.setUserId(UUID.fromString(userId));
+
         QuestionEntity saveQuestion = this.questionRepository.save(questionEntity);
 
         return this.questionMapper.questionEntityToCreatedQuestionResponse(saveQuestion);
+    }
+
+    public String extractJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     @Override
@@ -49,13 +73,21 @@ public class QuestionManager implements QuestionService {
 
     @Override
     @Transactional
-    public UpdatedQuestionResponse update(UpdateQuestionRequest updateQuestionRequest) {
+    public UpdatedQuestionResponse update(UpdateQuestionRequest updateQuestionRequest, HttpServletRequest request) {
         this.questionBusinessRules.isQuestionExistById(updateQuestionRequest.getId());
+
+        QuestionEntity question = this.questionRepository.findById(updateQuestionRequest.getId()).orElse(null);
+
+        String token = extractJwtFromRequest(request);
+        List<String> roles = this.jwtService.extractRoles(token);
+        String userId = this.jwtService.extractUserId(token);
+
+        this.questionBusinessRules.checkRequestRole(roles.get(0), question, userId);
 
         QuestionEntity questionEntity = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
         questionEntity.setUpdatedDate(LocalDateTime.now());
 
-        QuestionEntity savedQuestion = this.questionRepository.save(questionEntity);
+        QuestionEntity savedQuestion = this.questionRepository.save(question);
 
         return this.questionMapper.questionEntityToUpdatedQuestionResponse(savedQuestion);
     }
@@ -70,11 +102,21 @@ public class QuestionManager implements QuestionService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(UUID id, HttpServletRequest request) {
         QuestionEntity questionEntity = this.questionBusinessRules.isCatalogAlreadyDeleted(id);
+
+        String token = extractJwtFromRequest(request);
+        List<String> roleName = this.jwtService.extractRoles(token);
+        String userId = this.jwtService.extractUserId(token);
+
+        assert questionEntity != null;
+        this.questionBusinessRules.checkRequestRole(roleName.get(0), questionEntity, userId);
+
         questionEntity.setDeletedDate(LocalDateTime.now());
 
         this.questionRepository.save(questionEntity);
+
+        this.optionService.delete(id);
 
     }
 }

@@ -10,14 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class ApplicationConfig {
 
     @Bean
-    @Primary
     public UserDetailsService userDetailsService() {
         return username -> {
-            // Kullanıcı detaylarını buradan döndürebilirsiniz
-            // Örneğin, veritabanından çekebilirsiniz
             return User.withUsername(username)
-                    .password("password") // şifreyi encode ederek döndürmelisiniz
-                    .roles("USER") // roller
+                    .password("password")
+                    .roles("USER")
                     .build();
         };
     }

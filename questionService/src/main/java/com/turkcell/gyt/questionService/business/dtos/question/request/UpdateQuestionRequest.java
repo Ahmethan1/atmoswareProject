@@ -30,4 +30,5 @@ public class UpdateQuestionRequest {
     @Min(value = 2, message = "Option count must be at least 2")
     @Max(value = 5, message = "Option count can be at most 5")
     private int optionCount;
+    private String status;
 }

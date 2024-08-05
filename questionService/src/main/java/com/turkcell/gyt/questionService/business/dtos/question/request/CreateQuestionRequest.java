@@ -13,8 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateQuestionRequest {
-    @NotNull(message = "User ID cannot be null")
-    private UUID userId;
 
     @Size(max = 2000, message = "Description can be at most 2000 characters")
     private String description;
@@ -25,5 +23,6 @@ public class CreateQuestionRequest {
     @Min(value = 2, message = "Option count must be at least 2")
     @Max(value = 5, message = "Option count can be at most 5")
     private int optionCount;
+
 
 }

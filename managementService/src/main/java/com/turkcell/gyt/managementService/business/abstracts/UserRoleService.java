@@ -10,7 +10,9 @@ import com.turkcell.gyt.managementService.entity.User;
 import java.util.UUID;
 
 public interface UserRoleService {
+
     CreatedUserRoleResponse add(CreateUserRoleRequest createUserRoleRequest);
     UpdatedUserRoleResponse update(UpdateUserRoleRequest updateUserRoleRequest);
     UUID getRoleByUser(User user);
+    UUID getRoleIdByUserId(UUID userId);
 }

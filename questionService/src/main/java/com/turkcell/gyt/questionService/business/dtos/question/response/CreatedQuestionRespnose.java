@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 public class CreatedQuestionRespnose {
     private UUID userId;
+    private String userRole;
     private String description;
     private String imageUrl;
     private int optionCount;

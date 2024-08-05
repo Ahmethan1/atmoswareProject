@@ -9,6 +9,7 @@ import com.turkcell.gyt.questionService.business.dtos.question.response.CreatedQ
 import com.turkcell.gyt.questionService.business.dtos.question.response.GetAllQuestionResponse;
 import com.turkcell.gyt.questionService.business.dtos.question.response.GetByIdQuestionResponse;
 import com.turkcell.gyt.questionService.business.dtos.question.response.UpdatedQuestionResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,9 @@ public class QuestionsController {
     private QuestionService questionService;
     @PostMapping("/addquestions")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreatedQuestionRespnose add(@Valid @RequestBody CreateQuestionRequest createQuestionRequest){
+    public CreatedQuestionRespnose add(@Valid @RequestBody CreateQuestionRequest createQuestionRequest, HttpServletRequest request){
 
-     return this.questionService.add(createQuestionRequest);
+     return this.questionService.add(createQuestionRequest,request);
 
     }
     @GetMapping("/getAll")
@@ -43,16 +44,15 @@ public class QuestionsController {
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public UpdatedQuestionResponse update(@Valid @RequestBody UpdateQuestionRequest updateQuestionRequest) {
+    public UpdatedQuestionResponse update(@Valid @RequestBody UpdateQuestionRequest updateQuestionRequest, HttpServletRequest request) {
 
-        return this.questionService.update(updateQuestionRequest);
+        return this.questionService.update(updateQuestionRequest,request);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
-    public void delete(@PathVariable UUID id) {
-        this.questionService.delete(id);
+    public void delete(@PathVariable UUID id, HttpServletRequest request) {
+        this.questionService.delete(id,request);
     }
 
 }

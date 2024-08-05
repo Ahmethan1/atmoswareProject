@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -43,6 +44,22 @@ public class JwtService {
                 .getBody();
         return claims.getExpiration();
     }
+    public Claims getClaims(String token){
+        return Jwts
+                .parser()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+    public List<String> extractRoles(String token) {
+        return getClaims(token).get("roles", List.class);
+    }
+
+    public String extractUserId(String token) {
+        return getClaims(token).get("id", String.class);
+    }
+
 
     public String extractUser(String token) {
         Claims claims = Jwts
