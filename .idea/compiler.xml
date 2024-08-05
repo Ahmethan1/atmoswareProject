@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
         <module name="demo" />
+        <module name="discoveryServer" />
         <module name="gatewayService" />
         <module name="questionService" />
         <module name="managementService" />
@@ -19,6 +20,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="core" options="-parameters" />
       <module name="demo" options="-parameters" />
+      <module name="discoveryServer" options="-parameters" />
       <module name="gatewayService" options="-parameters" />
       <module name="managementService" options="-parameters" />
       <module name="questionService" options="-parameters" />

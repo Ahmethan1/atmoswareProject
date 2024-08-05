@@ -41,11 +41,11 @@ public class QuestionManager implements QuestionService {
     public CreatedQuestionRespnose add(CreateQuestionRequest createQuestionRequest, HttpServletRequest request) {
 
         String token = extractJwtFromRequest(request);
-        List<String> roles = this.jwtService.extractRoles(token);
+        String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
         QuestionEntity questionEntity = this.questionMapper.createQuestionRequestToQuestionEntity(createQuestionRequest);
-        questionEntity.setUserRole(roles.get(0));
+        questionEntity.setUserRole(role);
         questionEntity.setStatus(Status.AVAILABLE);
         questionEntity.setUserId(UUID.fromString(userId));
 
@@ -79,13 +79,14 @@ public class QuestionManager implements QuestionService {
         QuestionEntity question = this.questionRepository.findById(updateQuestionRequest.getId()).orElse(null);
 
         String token = extractJwtFromRequest(request);
-        List<String> roles = this.jwtService.extractRoles(token);
+        String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
-        this.questionBusinessRules.checkRequestRole(roles.get(0), question, userId);
+        this.questionBusinessRules.checkRequestRole(role, question, userId);
 
         QuestionEntity questionEntity = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
         questionEntity.setUpdatedDate(LocalDateTime.now());
+        questionEntity.setStatus(Status.AVAILABLE);
 
         QuestionEntity savedQuestion = this.questionRepository.save(question);
 
@@ -106,11 +107,11 @@ public class QuestionManager implements QuestionService {
         QuestionEntity questionEntity = this.questionBusinessRules.isCatalogAlreadyDeleted(id);
 
         String token = extractJwtFromRequest(request);
-        List<String> roleName = this.jwtService.extractRoles(token);
+        String roleName = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
         assert questionEntity != null;
-        this.questionBusinessRules.checkRequestRole(roleName.get(0), questionEntity, userId);
+        this.questionBusinessRules.checkRequestRole(roleName, questionEntity, userId);
 
         questionEntity.setDeletedDate(LocalDateTime.now());
 

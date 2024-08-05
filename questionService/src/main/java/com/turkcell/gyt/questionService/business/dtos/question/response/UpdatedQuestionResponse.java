@@ -17,5 +17,5 @@ public class UpdatedQuestionResponse {
     private String description;
     private String imageUrl;
     private int optionCount;
-    private String status;
+
 }

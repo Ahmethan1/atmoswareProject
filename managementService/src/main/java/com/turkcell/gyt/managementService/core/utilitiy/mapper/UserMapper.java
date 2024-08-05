@@ -10,9 +10,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @Mapping(source = "email", target = "email")
+    //@Mapping(source = "email", target = "email")
     User registerRequestToUserEntity(RegisterRequest request);
-    @Mapping(source = "email", target = "email")
+    //@Mapping(source = "email", target = "email")
     CreatedRegisterResponse userToCreatedRegisterResponse(User user);
 
     User updateRegisterRequestToUser(UpdatedResgisterRequest updatedResgisterRequest);

@@ -10,19 +10,19 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserRoleMapper {
-    @Mapping(target = "user.id",source = "userId")
-    @Mapping(target = "role.id",source = "roleId")
+    //@Mapping(target = "user.id",source = "userId")
+    //@Mapping(target = "role.id",source = "roleId")
     UserRole createUserRoleRequestToUserRoleEntity(CreateUserRoleRequest createUserRoleRequest);
-    @Mapping(target = "user.id",source = "userId")
-    @Mapping(target = "role.id",source = "roleId")
+    //@Mapping(target = "user.id",source = "userId")
+    //@Mapping(target = "role.id",source = "roleId")
     UserRole updatedUserRoleRequestToUserRoleEntity(UpdateUserRoleRequest updateUserRoleRequest);
 
-    @Mapping(target = "userId",source = "user.id")
-    @Mapping(target = "roleId",source ="role.id" )
+    //@Mapping(target = "userId",source = "user.id")
+    //@Mapping(target = "roleId",source ="role.id" )
     CreatedUserRoleResponse userRoleToCreatedRoleResponse(UserRole userRole);
 
-    @Mapping(target = "roleId",source ="role.id" )
-    @Mapping(target = "userId",source = "user.id")
+    //@Mapping(target = "roleId",source ="role.id" )
+    //@Mapping(target = "userId",source = "user.id")
     UpdatedUserRoleResponse userRoleToUpdatedUserRoleResponse(UserRole userRole);
 
 }
