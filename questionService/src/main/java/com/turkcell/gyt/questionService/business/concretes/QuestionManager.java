@@ -84,13 +84,16 @@ public class QuestionManager implements QuestionService {
 
         this.questionBusinessRules.checkRequestRole(role, question, userId);
 
-        QuestionEntity questionEntity = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
-        questionEntity.setUpdatedDate(LocalDateTime.now());
-        questionEntity.setStatus(Status.AVAILABLE);
+        //QuestionEntity questionEntity = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
 
-        QuestionEntity savedQuestion = this.questionRepository.save(question);
+        question.setUpdatedDate(LocalDateTime.now());
+        question.setStatus(Status.AVAILABLE);
 
-        return this.questionMapper.questionEntityToUpdatedQuestionResponse(savedQuestion);
+        question.setUserRole(role);
+        this.questionRepository.save(question);
+        //QuestionEntity savedQuestion = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
+
+        return this.questionMapper.questionEntityToUpdatedQuestionResponse(question);
     }
 
     @Override

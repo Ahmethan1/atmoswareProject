@@ -1,5 +1,6 @@
 package com.turkcell.gyt.questionService.business.dtos.question.response;
 
+import com.turkcell.gyt.questionService.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,10 @@ import java.util.UUID;
 public class UpdatedQuestionResponse {
     private UUID id;
     private UUID userId;
+    private String userRole;
     private String description;
     private String imageUrl;
     private int optionCount;
+
 
 }

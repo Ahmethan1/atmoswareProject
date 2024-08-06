@@ -1,5 +1,6 @@
 package com.turkcell.gyt.questionService.business.dtos.question.request;
 
+import com.turkcell.gyt.questionService.entity.Status;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -30,4 +31,5 @@ public class UpdateQuestionRequest {
     @Min(value = 2, message = "Option count must be at least 2")
     @Max(value = 5, message = "Option count can be at most 5")
     private int optionCount;
+
 }

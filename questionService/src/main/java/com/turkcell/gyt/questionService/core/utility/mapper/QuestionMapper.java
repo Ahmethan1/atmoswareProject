@@ -17,6 +17,7 @@ public interface QuestionMapper {
     @Mapping(source = "imageUrl", target = "imageUrl")
     QuestionEntity createQuestionRequestToQuestionEntity(CreateQuestionRequest createQuestionRequest);
     @Mapping(source = "imageUrl", target = "imageUrl")
+    //@Mapping(target = "status", ignore = true)
     QuestionEntity updateQuestionRequestToQuestionEntity(UpdateQuestionRequest updateQuestionRequest);
 
 
