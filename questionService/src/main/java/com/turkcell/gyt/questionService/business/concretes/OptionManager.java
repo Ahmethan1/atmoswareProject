@@ -12,6 +12,8 @@ import com.turkcell.gyt.questionService.core.utility.mapper.OptionMapper;
 import com.turkcell.gyt.questionService.dataAccess.OptionRepository;
 import com.turkcell.gyt.questionService.entity.OptionEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,12 +39,11 @@ public class OptionManager implements OptionService {
     }
 
     @Override
-    public List<GetAllOptionResponse> getAll() {
-        List<OptionEntity> optionEntities = this.optionRepository.findByDeletedDateIsNull();
+    public Page<GetAllOptionResponse> getAll(Pageable pageable) {
+        Page<OptionEntity> optionEntities = this.optionRepository.findAllByOrderByIdAsc(pageable);
 
-        return optionEntities.stream()
-                .map(this.optionMapper::optionEntityToGetAllOptionResponse)
-                .collect(Collectors.toList());
+        return optionEntities.map(this.optionMapper::optionEntityToGetAllOptionResponse);
+
     }
 
     @Override

@@ -28,8 +28,8 @@ public interface QuestionMapper {
     @Mapping(source = "imageUrl", target = "imageUrl")
     UpdatedQuestionResponse questionEntityToUpdatedQuestionResponse(QuestionEntity questionEntity);
 
-    @Mapping(source = "imageUrl", target = "imageUrl")
-    @Mapping(source = "id",target = "id")
+    //@Mapping(source = "imageUrl", target = "imageUrl")
+    //@Mapping(source = "id",target = "id")
     GetAllQuestionResponse questionEntityToGetAllQuestionResponse(QuestionEntity questionEntity);
     @Mapping(source = "imageUrl", target = "imageUrl")
     @Mapping(source = "id",target = "id")

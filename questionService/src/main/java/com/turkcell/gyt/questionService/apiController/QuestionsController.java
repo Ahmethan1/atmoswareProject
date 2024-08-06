@@ -12,6 +12,9 @@ import com.turkcell.gyt.questionService.business.dtos.question.response.UpdatedQ
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +35,9 @@ public class QuestionsController {
     }
     @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<GetAllQuestionResponse> getAll(){
-        return this.questionService.getAll();
+    public Page<GetAllQuestionResponse> getAll(@RequestParam int page, @RequestParam int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return this.questionService.getAll(pageable);
     }
 
     @GetMapping("/getById/{id}")

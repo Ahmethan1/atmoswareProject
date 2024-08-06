@@ -11,7 +11,7 @@ import com.turkcell.gyt.questionService.entity.OptionEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(config = MapstructureService.class)
+@Mapper(componentModel = "spring")
 public interface OptionMapper {
     //Request to Entity
     OptionEntity createOptionRequestToOptionEntity(CreateOptionRequest createOptionRequest);
@@ -21,8 +21,9 @@ public interface OptionMapper {
     CreatedOptionResponse optionEntityToCreatedOptionResponse(OptionEntity optionEntity);
     UpdatedOptionResponse optionEntityToUpdatedOptionResponse(OptionEntity optionEntity);
 
-    @Mapping(source = "imageUrl",target = "imageUrl")
-    @Mapping(source = "id",target = "id")
+    //@Mapping(source = "imageUrl",target = "imageUrl")
+    @Mapping(source = "optionEntity.id", target = "questionId")
+    @Mapping(source = "id", target = "id")
     GetAllOptionResponse optionEntityToGetAllOptionResponse(OptionEntity optionEntity);
 
     @Mapping(source = "imageUrl",target = "imageUrl")

@@ -7,18 +7,14 @@ import com.turkcell.gyt.questionService.business.dtos.option.response.CreatedOpt
 import com.turkcell.gyt.questionService.business.dtos.option.response.GetAllOptionResponse;
 import com.turkcell.gyt.questionService.business.dtos.option.response.GetByIdOptionResponse;
 import com.turkcell.gyt.questionService.business.dtos.option.response.UpdatedOptionResponse;
-import com.turkcell.gyt.questionService.business.dtos.question.request.CreateQuestionRequest;
-import com.turkcell.gyt.questionService.business.dtos.question.request.UpdateQuestionRequest;
-import com.turkcell.gyt.questionService.business.dtos.question.response.CreatedQuestionRespnose;
-import com.turkcell.gyt.questionService.business.dtos.question.response.GetAllQuestionResponse;
-import com.turkcell.gyt.questionService.business.dtos.question.response.GetByIdQuestionResponse;
-import com.turkcell.gyt.questionService.business.dtos.question.response.UpdatedQuestionResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,7 +25,7 @@ public class OptionsController {
 
     @PostMapping("/addoptions")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreatedOptionResponse add(@Valid @RequestBody CreateOptionRequest createOptionRequest){
+    public CreatedOptionResponse add(@Valid @RequestBody CreateOptionRequest createOptionRequest) {
 
         return this.optionService.add(createOptionRequest);
 
@@ -37,8 +33,9 @@ public class OptionsController {
 
     @GetMapping("/getAll")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List<GetAllOptionResponse> getAll(){
-        return this.optionService.getAll();
+    public Page<GetAllOptionResponse> getAll(@RequestParam int page, @RequestParam int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return this.optionService.getAll(pageable);
     }
 
     @GetMapping("/getById/{id}")

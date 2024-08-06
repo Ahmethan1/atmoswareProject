@@ -18,6 +18,8 @@ import com.turkcell.gyt.questionService.entity.Status;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -63,12 +65,10 @@ public class QuestionManager implements QuestionService {
     }
 
     @Override
-    public List<GetAllQuestionResponse> getAll() {
-        List<QuestionEntity> questionEntityList = this.questionRepository.findByDeletedDateIsNull();
+    public Page<GetAllQuestionResponse> getAll(Pageable pageable) {
+        Page<QuestionEntity> questionEntities = this.questionRepository.findAllByOrderByIdAsc(pageable);
 
-        return questionEntityList.stream()
-                .map(this.questionMapper::questionEntityToGetAllQuestionResponse)
-                .collect(Collectors.toList());
+        return questionEntities.map(this.questionMapper::questionEntityToGetAllQuestionResponse);
     }
 
     @Override
