@@ -8,9 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="core" />
+        <module name="examService" />
+        <module name="gatewayService" />
         <module name="demo" />
         <module name="discoveryServer" />
-        <module name="gatewayService" />
         <module name="questionService" />
         <module name="managementService" />
       </profile>
@@ -21,6 +22,7 @@
       <module name="core" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="discoveryServer" options="-parameters" />
+      <module name="examService" options="-parameters" />
       <module name="gatewayService" options="-parameters" />
       <module name="managementService" options="-parameters" />
       <module name="questionService" options="-parameters" />
