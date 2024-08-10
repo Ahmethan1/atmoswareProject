@@ -24,7 +24,7 @@ public class Exam {
 
     private String examName;
     private UUID userId;
-    private String roleName;
+    private String userRole;
     private double duration;
 
     @Field("rules")

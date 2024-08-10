@@ -7,6 +7,7 @@ import com.turkcell.gyt.examService.business.dtos.response.CreatedExamResponse;
 import com.turkcell.gyt.examService.business.dtos.response.GetAllExamResponse;
 import com.turkcell.gyt.examService.business.dtos.response.GetByExamIdResponse;
 import com.turkcell.gyt.examService.business.dtos.response.UpdatedExamResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,14 +25,14 @@ public class ExamsController {
     private ExamService examService;
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreatedExamResponse add(@Valid @RequestBody CreateExamRequest createExamRequest){
-        return this.examService.add(createExamRequest);
+    public CreatedExamResponse add(@Valid @RequestBody CreateExamRequest createExamRequest, HttpServletRequest request){
+        return this.examService.add(createExamRequest,request);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public UpdatedExamResponse update(@Valid @RequestBody UpdateExamRequest updateExamRequest){
-        return this.examService.update(updateExamRequest);
+    public UpdatedExamResponse update(@Valid @RequestBody UpdateExamRequest updateExamRequest,HttpServletRequest request){
+        return this.examService.update(updateExamRequest,request);
     }
 
     @GetMapping("/getAll")
@@ -48,7 +49,7 @@ public class ExamsController {
     }
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(UUID id){
-        this.examService.delete(id);
+    public void delete(UUID id, HttpServletRequest request){
+        this.examService.delete(id,request);
     }
 }

@@ -16,7 +16,7 @@ spring:
     name: questionService
   datasource:
     url: jdbc:postgresql://localhost:5432/questionDb
-    username: postgres
+    username: myuser
     password: mypassword
   jpa:
     hibernate:
