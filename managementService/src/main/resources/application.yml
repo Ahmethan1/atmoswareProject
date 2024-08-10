@@ -15,7 +15,7 @@ spring:
   application:
     name: managementService
   datasource:
-    url: jdbc:postgresql://localhost:5433/managementDb
+    url: jdbc:postgresql://localhost:5432/managementDb
     username: postgres
     password: mypassword
   jpa:

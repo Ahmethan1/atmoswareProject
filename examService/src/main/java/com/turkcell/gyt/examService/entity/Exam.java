@@ -1,23 +1,52 @@
 package com.turkcell.gyt.examService.entity;
 
-import com.turkcell.gyt.examService.core.baseEntity.BaseEntiy;
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "exams")
-public class Exam extends BaseEntiy<UUID> {
-    private String name;
+@Document(collection = "exams")
+public class Exam {
+    @Id
+    private UUID id;
 
-    @OneToMany(mappedBy = "exam", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private List<ExamRule> ruleEntities;
+    private String examName;
+    private UUID userId;
+    private String roleName;
+    private double duration;
+
+    @Field("rules")
+    private List<String> rules;
+
+    @CreatedDate
+    @Field("createdDate")
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Field("updatedDate")
+    private LocalDateTime updatedDate;
+
+    @Field("deletedDate")
+
+    private LocalDateTime deletedDate;
+
+    public Exam() {
+        this.id = UUID.randomUUID();
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+    }
+
+
 }
