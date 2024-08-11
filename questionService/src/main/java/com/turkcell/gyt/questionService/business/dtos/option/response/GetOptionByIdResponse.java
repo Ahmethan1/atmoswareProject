@@ -1,4 +1,4 @@
-package com.turkcell.gyt.questionService.business.dtos.question.response;
+package com.turkcell.gyt.questionService.business.dtos.option.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetAllQuestionResponse {
+public class GetOptionByIdResponse {
     private UUID id;
-    //private UUID questionId;
-    private String userRole;
-    private String description;
+    private UUID questionId;
+    private String descriptionOption;
+    private boolean isCorrect;
     private String imageUrl;
-    private int optionCount;
 }

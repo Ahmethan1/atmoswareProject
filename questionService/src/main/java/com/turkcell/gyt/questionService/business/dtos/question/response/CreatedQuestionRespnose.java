@@ -12,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreatedQuestionRespnose {
+    private UUID id;
     private UUID userId;
     private String userRole;
     private String description;

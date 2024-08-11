@@ -1,5 +1,6 @@
 package com.turkcell.gyt.examService.business.dtos.response;
 
+import com.turkcell.gyt.common.Exam.GetQuestionAndOption;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ public class GetByExamIdResponse {
     private String examName;
     private double duration;
     private List<String> rules;
+    private List<GetQuestionAndOption> getQuestionAndOptions;
 }

@@ -6,10 +6,7 @@ import com.turkcell.gyt.questionService.business.abstracts.OptionService;
 import com.turkcell.gyt.questionService.business.abstracts.QuestionService;
 import com.turkcell.gyt.questionService.business.dtos.question.request.CreateQuestionRequest;
 import com.turkcell.gyt.questionService.business.dtos.question.request.UpdateQuestionRequest;
-import com.turkcell.gyt.questionService.business.dtos.question.response.CreatedQuestionRespnose;
-import com.turkcell.gyt.questionService.business.dtos.question.response.GetAllQuestionResponse;
-import com.turkcell.gyt.questionService.business.dtos.question.response.GetByIdQuestionResponse;
-import com.turkcell.gyt.questionService.business.dtos.question.response.UpdatedQuestionResponse;
+import com.turkcell.gyt.questionService.business.dtos.question.response.*;
 import com.turkcell.gyt.questionService.business.rules.QuestionBusinessRules;
 import com.turkcell.gyt.questionService.core.utility.mapper.QuestionMapper;
 import com.turkcell.gyt.questionService.dataAccess.QuestionRepository;
@@ -75,8 +72,9 @@ public class QuestionManager implements QuestionService {
     @Transactional
     public UpdatedQuestionResponse update(UpdateQuestionRequest updateQuestionRequest, HttpServletRequest request) {
         this.questionBusinessRules.isQuestionExistById(updateQuestionRequest.getId());
+        QuestionEntity question = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
 
-        QuestionEntity question = this.questionRepository.findById(updateQuestionRequest.getId()).orElse(null);
+        //QuestionEntity question = this.questionRepository.findById(updateQuestionRequest.getId()).orElse(null);
 
         String token = extractJwtFromRequest(request);
         String role = this.jwtService.extractRoles(token);
@@ -122,5 +120,12 @@ public class QuestionManager implements QuestionService {
 
         this.optionService.delete(id);
 
+    }
+    @Override
+    public GetQuestionByIdResponse getQuestionById(UUID id) {
+
+        QuestionEntity question = this.questionBusinessRules.isQuestionExistById(id);
+
+        return this.questionMapper.questionEntityToGetQuestionByIdResponse(question);
     }
 }

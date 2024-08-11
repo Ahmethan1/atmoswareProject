@@ -23,7 +23,7 @@ public class OptionEntity extends BaseEntity<UUID> {
     private String imageUrl;
     private boolean isCorrect;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "question_id")
     private QuestionEntity questionEntity;
 

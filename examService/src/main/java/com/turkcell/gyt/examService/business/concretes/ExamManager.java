@@ -1,6 +1,8 @@
 package com.turkcell.gyt.examService.business.concretes;
 
 import com.atmosware.core.utils.JwtService;
+import com.turkcell.gyt.common.Exam.GetQuestionAndOption;
+import com.turkcell.gyt.examService.api.client.QuestionClient;
 import com.turkcell.gyt.examService.business.abstracts.ExamService;
 import com.turkcell.gyt.examService.business.dtos.request.CreateExamRequest;
 import com.turkcell.gyt.examService.business.dtos.request.UpdateExamRequest;
@@ -31,6 +33,7 @@ public class ExamManager implements ExamService {
     private final ModelMapperService examMapper;
     private final ExamBusinessRules examBusinessRules;
     private final JwtService jwtService;
+    private final QuestionClient questionClient;
 
     @Override
     public CreatedExamResponse add(CreateExamRequest createExamRequest,HttpServletRequest request) {
@@ -42,6 +45,13 @@ public class ExamManager implements ExamService {
         Exam exam = this.examMapper.forRequest().map(createExamRequest, Exam.class);
         exam.setUserRole(role);
         exam.setUserId(UUID.fromString(userId));
+        for (UUID questionId : createExamRequest.getQuestionId()) {
+
+            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
+            exam.getQuestionAndOptions().add(questionAndOption);
+        }
+        //Todo : For u businees a taşı, jwt eklencek
+
 
         Exam savedExam = this.examRepository.save(exam);
         return this.examMapper.forResponse().map(savedExam, CreatedExamResponse.class);

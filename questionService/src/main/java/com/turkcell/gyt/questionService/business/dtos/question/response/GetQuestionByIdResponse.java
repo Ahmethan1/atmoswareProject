@@ -6,16 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetAllQuestionResponse {
+public class GetQuestionByIdResponse {
     private UUID id;
-    //private UUID questionId;
-    private String userRole;
+    private UUID userId;
     private String description;
     private String imageUrl;
     private int optionCount;
+    private String status;
 }

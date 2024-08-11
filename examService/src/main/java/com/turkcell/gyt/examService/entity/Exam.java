@@ -1,10 +1,10 @@
 package com.turkcell.gyt.examService.entity;
 
+import com.turkcell.gyt.common.Exam.GetQuestionAndOption;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,6 +29,9 @@ public class Exam {
 
     @Field("rules")
     private List<String> rules;
+
+    @Field("questionAndOptions")
+    private List<GetQuestionAndOption> questionAndOptions;
 
     @CreatedDate
     @Field("createdDate")

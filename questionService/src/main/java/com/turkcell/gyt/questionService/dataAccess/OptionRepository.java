@@ -13,4 +13,5 @@ import java.util.UUID;
 public interface OptionRepository extends JpaRepository<OptionEntity, UUID> {
     List<OptionEntity> findByDeletedDateIsNull();
     Page<OptionEntity> findAllByOrderByIdAsc(Pageable pageable);
+    List<OptionEntity> findOptionsByQuestionEntity_Id(UUID questionId);
 }

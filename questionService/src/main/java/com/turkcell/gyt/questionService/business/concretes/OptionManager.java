@@ -1,12 +1,10 @@
 package com.turkcell.gyt.questionService.business.concretes;
 
+import com.turkcell.gyt.common.Exam.OptionResponse;
 import com.turkcell.gyt.questionService.business.abstracts.OptionService;
 import com.turkcell.gyt.questionService.business.dtos.option.request.CreateOptionRequest;
 import com.turkcell.gyt.questionService.business.dtos.option.request.UpdateOptionRequest;
-import com.turkcell.gyt.questionService.business.dtos.option.response.CreatedOptionResponse;
-import com.turkcell.gyt.questionService.business.dtos.option.response.GetAllOptionResponse;
-import com.turkcell.gyt.questionService.business.dtos.option.response.GetByIdOptionResponse;
-import com.turkcell.gyt.questionService.business.dtos.option.response.UpdatedOptionResponse;
+import com.turkcell.gyt.questionService.business.dtos.option.response.*;
 import com.turkcell.gyt.questionService.business.rules.OptionBusinessRules;
 import com.turkcell.gyt.questionService.core.utility.mapper.OptionMapper;
 import com.turkcell.gyt.questionService.dataAccess.OptionRepository;
@@ -20,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -75,6 +72,15 @@ public class OptionManager implements OptionService {
 
         this.optionRepository.save(optionEntity);
 
+    }
+    @Override
+    public List<OptionResponse> getOptionsByQuestionId(UUID questionId){
+        List<OptionEntity> options = this.optionRepository.findOptionsByQuestionEntity_Id(questionId);
+        return options.stream().map(this.optionMapper::optionEntityToOptionResponse).toList();
+    }
 
+    @Override
+    public GetOptionByIdResponse getOptionById(UUID id){
+        return this.optionMapper.optionEntityToGetOptionByIdResponse(this.optionBusinessRules.isOptionExistById(id));
     }
 }
