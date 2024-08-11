@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -33,7 +33,7 @@ public class ExamManager implements ExamService {
     private final ModelMapperService examMapper;
     private final ExamBusinessRules examBusinessRules;
     private final JwtService jwtService;
-    private final QuestionClient questionClient;
+    //private final QuestionClient questionClient;
 
     @Override
     public CreatedExamResponse add(CreateExamRequest createExamRequest,HttpServletRequest request) {
@@ -45,12 +45,20 @@ public class ExamManager implements ExamService {
         Exam exam = this.examMapper.forRequest().map(createExamRequest, Exam.class);
         exam.setUserRole(role);
         exam.setUserId(UUID.fromString(userId));
-        for (UUID questionId : createExamRequest.getQuestionId()) {
 
-            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
-            exam.getQuestionAndOptions().add(questionAndOption);
-        }
-        //Todo : For u businees a taşı, jwt eklencek
+        LocalDateTime testStartedDate = createExamRequest.getTestStartedDate();
+        LocalDateTime testEndDate = testStartedDate.plusMinutes((long)exam.getDuration());
+
+        exam.setTestStartedDate(testStartedDate);
+        exam.setTestEndDate(testEndDate);
+
+//        for (UUID questionId : createExamRequest.getQuestionId()) {
+//
+//            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
+//            exam.getQuestionAndOptions().add(questionAndOption);
+//        }
+        //Todo: Aynı soru kontrolü
+        this.examBusinessRules.addQuestionsToExam(exam, createExamRequest.getQuestionId());
 
 
         Exam savedExam = this.examRepository.save(exam);
@@ -60,7 +68,10 @@ public class ExamManager implements ExamService {
     @Override
     @Transactional
     public UpdatedExamResponse update(UpdateExamRequest updateExamRequest,HttpServletRequest request) {
+
         this.examBusinessRules.isExistByExamId(updateExamRequest.getId());
+        this.examBusinessRules.checkExamIsStartedAndNotFinished(updateExamRequest.getId());
+
         Exam exam = this.examMapper.forRequest().map(updateExamRequest,Exam.class);
         //Exam exam =this.examRepository.findById(updateExamRequest.getId()).orElse(null);
 

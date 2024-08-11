@@ -27,6 +27,9 @@ public class Exam {
     private String userRole;
     private double duration;
 
+    private LocalDateTime testStartedDate;
+    private LocalDateTime testEndDate;
+
     @Field("rules")
     private List<String> rules;
 
