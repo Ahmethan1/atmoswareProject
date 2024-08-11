@@ -4,6 +4,7 @@ import com.turkcell.gyt.common.Exam.GetQuestionAndOption;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +36,7 @@ public class Exam {
     private List<String> rules;
 
     @Field("questionAndOptions")
-    private List<GetQuestionAndOption> questionAndOptions;
+    private List<GetQuestionAndOption> questionAndOptions = new ArrayList<>();
 
     @CreatedDate
     @Field("createdDate")

@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/questionservice/api/v1/exam-questions")
 public class ExamAndQuestionController {
     private ExamAndQuestionService examAndQuestionService;
-    @GetMapping("/getQuestionAndOption/{questionId}")
+    @GetMapping("/getById/{questionId}")
     public GetQuestionAndOption getQuestionAndOption(@PathVariable String questionId){
         return this.examAndQuestionService.getQuestionAndOptionById(UUID.fromString(questionId));
     }

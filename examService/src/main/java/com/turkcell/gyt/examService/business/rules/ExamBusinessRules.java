@@ -10,9 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -41,8 +39,19 @@ public class ExamBusinessRules {
         for (UUID questionId : questionIds) {
             GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(questionId.toString());
             exam.getQuestionAndOptions().add(questionAndOption);
+
         }
 
+    }
+
+    public void checkSameQuestionId(List<UUID> questionIds) {
+        Set<UUID> uniqueIds = new HashSet<>();
+
+        for (UUID questionId : questionIds) {
+            if (!uniqueIds.add(questionId)) {
+                throw new BusinessException("Listede aynı question ID'si var: " + questionId);
+            }
+        }
     }
     public Exam checkExamIsStartedAndNotFinished(UUID examId){
         Exam exam =this.examRepository.findById(examId).orElse(null);
@@ -56,14 +65,5 @@ public class ExamBusinessRules {
         }
         return exam;
     }
-    public void isQuestionAlready(Exam exam, UUID questionId){
-        List<GetQuestionAndOption> getQuestionAndOptions = exam.getQuestionAndOptions();
 
-        boolean isAlreadyAdded = getQuestionAndOptions.stream()
-                .anyMatch(questionAndOption -> questionAndOption.getQuestionId().equals(questionId));
-
-        if (isAlreadyAdded){
-            throw new BusinessException("This Question Already Added To The Exam ");
-        }
-    }
 }

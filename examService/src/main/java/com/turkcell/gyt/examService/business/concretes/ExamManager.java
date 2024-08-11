@@ -57,8 +57,10 @@ public class ExamManager implements ExamService {
 //            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
 //            exam.getQuestionAndOptions().add(questionAndOption);
 //        }
-        //Todo: Aynı soru kontrolü
+
+        this.examBusinessRules.checkSameQuestionId(createExamRequest.getQuestionId());
         this.examBusinessRules.addQuestionsToExam(exam, createExamRequest.getQuestionId());
+
 
 
         Exam savedExam = this.examRepository.save(exam);
