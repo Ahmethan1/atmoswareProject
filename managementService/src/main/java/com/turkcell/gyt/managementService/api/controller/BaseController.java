@@ -1,4 +1,4 @@
-package com.turkcell.gyt.managementService.apiController;
+package com.turkcell.gyt.managementService.api.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

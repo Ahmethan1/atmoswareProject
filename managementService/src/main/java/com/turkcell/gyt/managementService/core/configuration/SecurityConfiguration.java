@@ -1,6 +1,7 @@
 package com.turkcell.gyt.managementService.core.configuration;
 
 
+
 import com.atmosware.core.config.BaseSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="invitationService" />
         <module name="core" />
         <module name="examService" />
         <module name="common" />
@@ -15,17 +16,24 @@
         <module name="discoveryServer" />
         <module name="questionService" />
         <module name="managementService" />
+        <module name="grpc-core" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="core-grpc" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common" options="-parameters" />
       <module name="core" options="-parameters" />
+      <module name="core-grpc" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="discoveryServer" options="-parameters" />
       <module name="examService" options="-parameters" />
       <module name="gatewayService" options="-parameters" />
+      <module name="grpc-core" options="-parameters" />
+      <module name="invitationService" options="-parameters" />
       <module name="managementService" options="-parameters" />
       <module name="questionService" options="-parameters" />
     </option>

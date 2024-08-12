@@ -100,13 +100,20 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
         <dependency>
-            <groupId>com.atmosware</groupId>
-            <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.turkcell.gyt</groupId>
+            <artifactId>grpc-core</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.atmosware</groupId>
+			<artifactId>core</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

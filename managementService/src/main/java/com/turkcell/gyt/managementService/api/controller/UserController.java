@@ -1,4 +1,4 @@
-package com.turkcell.gyt.managementService.apiController;
+package com.turkcell.gyt.managementService.api.controller;
 
 import com.turkcell.gyt.managementService.business.abstracts.UserService;
 import com.turkcell.gyt.managementService.core.dtos.request.user.RegisterRequest;

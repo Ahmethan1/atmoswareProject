@@ -1,20 +1,16 @@
-package com.turkcell.gyt.managementService;
+package com.turkcell.gyt.invitationService;
 
-
-import com.atmosware.core.annotation.EnableSecurity;
 import com.turkcell.gyt.grpc_core.GrpcCoreApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@EnableSecurity
 @Import(GrpcCoreApplication.class)
-public class ManagementServiceApplication {
+public class InvitationServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ManagementServiceApplication.class, args);
-    }
-
+	public static void main(String[] args) {
+		SpringApplication.run(InvitationServiceApplication.class, args);
+	}
 
 }

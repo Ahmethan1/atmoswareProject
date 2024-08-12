@@ -1,4 +1,4 @@
-package com.turkcell.gyt.managementService.apiController;
+package com.turkcell.gyt.managementService.api.controller;
 
 import com.turkcell.gyt.managementService.business.abstracts.UserRoleService;
 import com.turkcell.gyt.managementService.core.dtos.request.userRole.CreateUserRoleRequest;
@@ -6,7 +6,6 @@ import com.turkcell.gyt.managementService.core.dtos.request.userRole.UpdateUserR
 import com.turkcell.gyt.managementService.core.dtos.response.role.CreatedUserRoleResponse;
 import com.turkcell.gyt.managementService.core.dtos.response.userRole.UpdatedUserRoleResponse;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

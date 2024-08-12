@@ -1,8 +1,6 @@
 package com.turkcell.gyt.examService.business.concretes;
 
 import com.atmosware.core.utils.JwtService;
-import com.turkcell.gyt.common.Exam.GetQuestionAndOption;
-import com.turkcell.gyt.examService.api.client.QuestionClient;
 import com.turkcell.gyt.examService.business.abstracts.ExamService;
 import com.turkcell.gyt.examService.business.dtos.request.CreateExamRequest;
 import com.turkcell.gyt.examService.business.dtos.request.UpdateExamRequest;
@@ -22,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -36,7 +33,7 @@ public class ExamManager implements ExamService {
     //private final QuestionClient questionClient;
 
     @Override
-    public CreatedExamResponse add(CreateExamRequest createExamRequest,HttpServletRequest request) {
+    public CreatedExamResponse add(CreateExamRequest createExamRequest, HttpServletRequest request) {
 
         String token = extractJwtFromRequest(request);
         String role = this.jwtService.extractRoles(token);
@@ -47,7 +44,7 @@ public class ExamManager implements ExamService {
         exam.setUserId(UUID.fromString(userId));
 
         LocalDateTime testStartedDate = createExamRequest.getTestStartedDate();
-        LocalDateTime testEndDate = testStartedDate.plusMinutes((long)exam.getDuration());
+        LocalDateTime testEndDate = testStartedDate.plusMinutes((long) exam.getDuration());
 
         exam.setTestStartedDate(testStartedDate);
         exam.setTestEndDate(testEndDate);
@@ -63,26 +60,25 @@ public class ExamManager implements ExamService {
         this.examBusinessRules.addQuestionsToExam(exam, createExamRequest.getQuestionId());
 
 
-
         Exam savedExam = this.examRepository.save(exam);
         return this.examMapper.forResponse().map(savedExam, CreatedExamResponse.class);
     }
 
     @Override
     @Transactional
-    public UpdatedExamResponse update(UpdateExamRequest updateExamRequest,HttpServletRequest request) {
+    public UpdatedExamResponse update(UpdateExamRequest updateExamRequest, HttpServletRequest request) {
 
         this.examBusinessRules.isExistByExamId(updateExamRequest.getId());
         this.examBusinessRules.checkExamIsStartedAndNotFinished(updateExamRequest.getId());
 
-        Exam exam = this.examMapper.forRequest().map(updateExamRequest,Exam.class);
+        Exam exam = this.examMapper.forRequest().map(updateExamRequest, Exam.class);
         //Exam exam =this.examRepository.findById(updateExamRequest.getId()).orElse(null);
 
         String token = extractJwtFromRequest(request);
         String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
-        this.examBusinessRules.checkRequestRole(role,exam,userId);
+        this.examBusinessRules.checkRequestRole(role, exam, userId);
 
         exam.setUserRole(role);
 
@@ -93,12 +89,12 @@ public class ExamManager implements ExamService {
     @Override
     public Page<GetAllExamResponse> getAll(Pageable pageable) {
         Page<Exam> exams = this.examRepository.findAllByOrderByIdAsc(pageable);
-        return exams.map(exam -> this.examMapper.forResponse().map(exam,GetAllExamResponse.class));
+        return exams.map(exam -> this.examMapper.forResponse().map(exam, GetAllExamResponse.class));
     }
 
     @Override
     public GetByExamIdResponse getById(UUID id) {
-        Exam exam =this.examBusinessRules.isExistByExamId(id);
+        Exam exam = this.examBusinessRules.isExistByExamId(id);
 
         return this.examMapper.forResponse().map(exam, GetByExamIdResponse.class);
     }
@@ -111,7 +107,7 @@ public class ExamManager implements ExamService {
         String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
-        this.examBusinessRules.checkRequestRole(role,exam,userId);
+        this.examBusinessRules.checkRequestRole(role, exam, userId);
 
         this.examRepository.deleteById(exam.getId());
 
