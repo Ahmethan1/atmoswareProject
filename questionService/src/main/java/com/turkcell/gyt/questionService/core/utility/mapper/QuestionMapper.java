@@ -32,7 +32,7 @@ public interface QuestionMapper {
     @Mapping(source = "imageUrl", target = "imageUrl")
     @Mapping(source = "id",target = "id")
     GetByIdQuestionResponse questionEntityToGetByIdQuestionResponse(QuestionEntity questionEntity);
-
+    @Mapping(source = "id",target = "questionId")
     GetQuestionAndOption questionToGetQuestionAndOptionResponse(QuestionEntity questionEntity);
     GetQuestionByIdResponse questionEntityToGetQuestionByIdResponse(QuestionEntity questionEntity);
 }

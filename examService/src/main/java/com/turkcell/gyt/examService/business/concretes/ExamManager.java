@@ -52,6 +52,7 @@ public class ExamManager implements ExamService {
         exam.setTestStartedDate(testStartedDate);
         exam.setTestEndDate(testEndDate);
 
+
 //        for (UUID questionId : createExamRequest.getQuestionId()) {
 //
 //            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
