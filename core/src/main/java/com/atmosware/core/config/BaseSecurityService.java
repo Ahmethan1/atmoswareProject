@@ -21,6 +21,9 @@ public class BaseSecurityService {
             "/managementservice/api/v1/auth/login",
             "/questionservice/api/v1/questions/getAll",
             "/managementservice/api/v1/users/register",
+            "/managementservice/api/v1/roles/add",
+            "/managementservice/api/v1/userrole/add",
+            "/managementservice/api/v1/roles/getById/{id}",
             "/examservice/api/v1/exam",
             "/questionservice/api/v1/exam-questions",
             "/examservice/api/v1/exam/add"

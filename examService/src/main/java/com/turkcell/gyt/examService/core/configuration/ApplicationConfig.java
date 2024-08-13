@@ -17,8 +17,5 @@ public class ApplicationConfig {
                     .build();
         };
     }
-    @Bean
-    public ModelMapper getModelMapper() {
-        return new ModelMapper();
-    }
+
 }

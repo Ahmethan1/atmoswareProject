@@ -21,7 +21,7 @@ public class ExamBusinessRules {
     public Exam isExistByExamId(UUID id) {
         Optional<Exam> exam = this.examRepository.findById(id);
         if (exam.isEmpty()) {
-            throw new BusinessException("Exam Id Not Found");
+            throw new BusinessException(ExamMessages.EXAM_NOT_FOUND);
         }
         return exam.get();
     }
@@ -53,16 +53,21 @@ public class ExamBusinessRules {
             }
         }
     }
-    public Exam checkExamIsStartedAndNotFinished(UUID examId){
-        Exam exam =this.examRepository.findById(examId).orElse(null);
-        assert exam != null;
-        if (exam.getTestStartedDate() == null){
-            throw new BusinessException("Exam Not Started Yet");
+    public Exam checkExamIsStartedAndNotFinished(UUID examId) {
+        Exam exam = this.examRepository.findById(examId).orElse(null);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // Testin başlamamış olduğunu kontrol et
+//        if (exam.getTestStartedDate() != null && exam.getTestStartedDate().isBefore(now)) {
+//            throw new BusinessException(ExamMessages.EXAM_NOT_STARTED_YET);
+//        }
+
+        // Testin bitip bitmediğini kontrol et
+        if (exam.getTestEndDate() != null && exam.getTestEndDate().isBefore(now)) {
+            throw new BusinessException(ExamMessages.EXAM_HAS_FINISHED);
         }
 
-        if (exam.getTestEndDate() != null && exam.getTestEndDate().isBefore(LocalDateTime.now())){
-            throw new BusinessException("Exam Finished");
-        }
         return exam;
     }
 

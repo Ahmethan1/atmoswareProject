@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
-    //@Mapping(source = "name", target = "name")
+    @Mapping(source = "name", target = "name")
     Role createRoleRequestToRoleEntity(CreateRoleRequest createRoleRequest);
-    //@Mapping(source = "name", target = "name")
+    @Mapping(source = "role.id", target = "id")
     CreatedRoleResponse roleEntityToCreateRoleResponse(Role role);
-
+    @Mapping(source = "role.id", target = "id")
     GetByIdRoleResponse roleEntityToGetByIdRoleResponse(Role role);
 }

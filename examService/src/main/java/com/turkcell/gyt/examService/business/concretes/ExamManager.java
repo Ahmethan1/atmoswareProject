@@ -27,7 +27,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ExamManager implements ExamService {
     private final ExamRepository examRepository;
-    private final ModelMapperService examMapper;
+    private final ModelMapperService modelMapperService;
     private final ExamBusinessRules examBusinessRules;
     private final JwtService jwtService;
     //private final QuestionClient questionClient;
@@ -39,7 +39,7 @@ public class ExamManager implements ExamService {
         String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
-        Exam exam = this.examMapper.forRequest().map(createExamRequest, Exam.class);
+        Exam exam = this.modelMapperService.forRequest().map(createExamRequest, Exam.class);
         exam.setUserRole(role);
         exam.setUserId(UUID.fromString(userId));
 
@@ -50,18 +50,12 @@ public class ExamManager implements ExamService {
         exam.setTestEndDate(testEndDate);
 
 
-//        for (UUID questionId : createExamRequest.getQuestionId()) {
-//
-//            GetQuestionAndOption questionAndOption = this.questionClient.getQuestionAndOption(String.valueOf(createExamRequest.getQuestionId()));
-//            exam.getQuestionAndOptions().add(questionAndOption);
-//        }
-
         this.examBusinessRules.checkSameQuestionId(createExamRequest.getQuestionId());
         this.examBusinessRules.addQuestionsToExam(exam, createExamRequest.getQuestionId());
 
 
         Exam savedExam = this.examRepository.save(exam);
-        return this.examMapper.forResponse().map(savedExam, CreatedExamResponse.class);
+        return this.modelMapperService.forResponse().map(savedExam, CreatedExamResponse.class);
     }
 
     @Override
@@ -71,32 +65,41 @@ public class ExamManager implements ExamService {
         this.examBusinessRules.isExistByExamId(updateExamRequest.getId());
         this.examBusinessRules.checkExamIsStartedAndNotFinished(updateExamRequest.getId());
 
-        Exam exam = this.examMapper.forRequest().map(updateExamRequest, Exam.class);
+        Exam exam = this.modelMapperService.forRequest().map(updateExamRequest, Exam.class);
         //Exam exam =this.examRepository.findById(updateExamRequest.getId()).orElse(null);
 
         String token = extractJwtFromRequest(request);
         String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
+        LocalDateTime testStartedDate = updateExamRequest.getTestStartedDate();
+        LocalDateTime testEndDate = testStartedDate.plusMinutes((long) exam.getDuration());
+
+        exam.setTestStartedDate(testStartedDate);
+        exam.setTestEndDate(testEndDate);
+
         this.examBusinessRules.checkRequestRole(role, exam, userId);
+        this.examBusinessRules.addQuestionsToExam(exam, updateExamRequest.getQuestionId());
+        this.examBusinessRules.checkSameQuestionId(updateExamRequest.getQuestionId());
+
 
         exam.setUserRole(role);
 
 
-        return this.examMapper.forResponse().map(this.examRepository.save(exam), UpdatedExamResponse.class);
+        return this.modelMapperService.forResponse().map(this.examRepository.save(exam), UpdatedExamResponse.class);
     }
 
     @Override
     public Page<GetAllExamResponse> getAll(Pageable pageable) {
         Page<Exam> exams = this.examRepository.findAllByOrderByIdAsc(pageable);
-        return exams.map(exam -> this.examMapper.forResponse().map(exam, GetAllExamResponse.class));
+        return exams.map(exam -> this.modelMapperService.forResponse().map(exam, GetAllExamResponse.class));
     }
 
     @Override
     public GetByExamIdResponse getById(UUID id) {
         Exam exam = this.examBusinessRules.isExistByExamId(id);
 
-        return this.examMapper.forResponse().map(exam, GetByExamIdResponse.class);
+        return this.modelMapperService.forResponse().map(exam, GetByExamIdResponse.class);
     }
 
     @Override
