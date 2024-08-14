@@ -29,6 +29,9 @@ public class ExamAndQuestionManager implements ExamAndQuestionService {
 
         List<OptionResponse> optionResponses  = this.optionService.getOptionsByQuestionId(questionId);
 
+        this.questionBusinessRules.validateAtLeastOneCorrectOption(optionResponses);
+        this.questionBusinessRules.checkOptionCountIsLowerThanFiveAngHigherThanTwo(optionResponses);
+
         assert questionEntity != null;
         questionEntity.setStatus(Status.UNAVAILABLE);
         this.questionRepository.save(questionEntity);

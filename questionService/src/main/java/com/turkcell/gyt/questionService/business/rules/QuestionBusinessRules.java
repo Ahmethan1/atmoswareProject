@@ -1,14 +1,15 @@
 package com.turkcell.gyt.questionService.business.rules;
 
+import com.turkcell.gyt.common.Exam.OptionResponse;
 import com.turkcell.gyt.questionService.business.messages.QuestionMessages;
 import com.turkcell.gyt.questionService.core.business.abstracts.MessageService;
 import com.turkcell.gyt.questionService.core.utility.exceptions.types.BusinessException;
 import com.turkcell.gyt.questionService.dataAccess.QuestionRepository;
 import com.turkcell.gyt.questionService.entity.QuestionEntity;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,6 +45,28 @@ public class QuestionBusinessRules {
             if (!question.getUserId().equals(UUID.fromString(userId))) {
                 throw new BusinessException(QuestionMessages.INVALID_REQUEST_ROLE);
             }
+        }
+    }
+
+    public void checkOptionCountIsLowerThanFiveAngHigherThanTwo(List<OptionResponse> optionResponseList) {
+        if (optionResponseList.size() > 5) {
+            throw new BusinessException(QuestionMessages.OPTION_COUNT_EXCEEDS_LIMIT);
+        } else if (optionResponseList.size() < 2) {
+            throw new BusinessException(QuestionMessages.OPTION_COUNT_BELOW_MINIMUM);
+        }
+    }
+
+    public void validateAtLeastOneCorrectOption(List<OptionResponse> optionResponseList) {
+        boolean correctOption = false;
+
+        for (OptionResponse optionResponse : optionResponseList) {
+            if (optionResponse.isCorrect()) {
+                correctOption = true;
+                break;
+            }
+        }
+        if (!correctOption) {
+            throw new BusinessException(QuestionMessages.AT_LEAST_ONE_CORRECT_OPTION_REQUIRED);
         }
     }
 

@@ -17,13 +17,13 @@ public interface UserRoleMapper {
     @Mapping(target = "role.id",source = "roleId")
     UserRole updatedUserRoleRequestToUserRoleEntity(UpdateUserRoleRequest updateUserRoleRequest);
 
-    //@Mapping(target = "userId",source = "user.id")
+
     @Mapping(source = "role.id" ,target = "roleId")
     @Mapping(source = "user.id", target = "userId")
     CreatedUserRoleResponse userRoleToCreatedRoleResponse(UserRole userRole);
 
-    //@Mapping(target = "roleId",source ="role.id" )
-    //@Mapping(target = "userId",source = "user.id")
+    @Mapping(target = "roleId",source ="role.id" )
+    @Mapping(target = "userId",source = "user.id")
     UpdatedUserRoleResponse userRoleToUpdatedUserRoleResponse(UserRole userRole);
 
 }

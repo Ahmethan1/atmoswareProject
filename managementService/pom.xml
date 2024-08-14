@@ -104,7 +104,7 @@
         <dependency>
             <groupId>com.turkcell.gyt</groupId>
             <artifactId>grpc-core</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 		<dependency>

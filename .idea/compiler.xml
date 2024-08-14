@@ -20,6 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="callingService" target="17" />
       <module name="core-grpc" target="17" />
     </bytecodeTargetLevel>
   </component>
