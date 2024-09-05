@@ -5,25 +5,22 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class JwtService {
     @Value("${jwt.secret.key}")
-    private  String SECRET_KEY;
+    private String SECRET_KEY;
     @Value("${jwt.expiration.time}")
-    private  long EXPIRATION;
+    private long EXPIRATION;
 
-    //BoilerPlate
+
     public String generateToken(Map<String, Object> claims, String userName) {
 
         return createToken(claims, userName);
@@ -44,7 +41,8 @@ public class JwtService {
                 .getBody();
         return claims.getExpiration();
     }
-    public Claims getClaims(String token){
+
+    public Claims getClaims(String token) {
         return Jwts
                 .parser()
                 .setSigningKey(getSignKey())
@@ -52,6 +50,7 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     public String extractRoles(String token) {
         return getClaims(token).get("role", String.class);
     }

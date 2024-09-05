@@ -33,7 +33,6 @@ public class UserManager implements UserService {
 
     @Override
     public CreatedRegisterResponse register(RegisterRequest request) {
-        //iş kodu null değer dönderdiği için yoruma aldın bakmayı unutma
         //this.userBusinessRules.isEmailCanNotBeDuplicated(request.getEmail());
 
         User user = this.userMapper.registerRequestToUserEntity(request);

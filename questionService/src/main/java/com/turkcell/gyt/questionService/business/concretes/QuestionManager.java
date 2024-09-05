@@ -72,22 +72,17 @@ public class QuestionManager implements QuestionService {
         this.questionBusinessRules.isQuestionExistById(updateQuestionRequest.getId());
         QuestionEntity question = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
 
-        //QuestionEntity question = this.questionRepository.findById(updateQuestionRequest.getId()).orElse(null);
-
         String token = extractJwtFromRequest(request);
         String role = this.jwtService.extractRoles(token);
         String userId = this.jwtService.extractUserId(token);
 
         this.questionBusinessRules.checkRequestRole(role, question, userId);
 
-        //QuestionEntity questionEntity = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
-
         question.setUpdatedDate(LocalDateTime.now());
         question.setStatus(Status.AVAILABLE);
 
         question.setUserRole(role);
         this.questionRepository.save(question);
-        //QuestionEntity savedQuestion = this.questionMapper.updateQuestionRequestToQuestionEntity(updateQuestionRequest);
 
         return this.questionMapper.questionEntityToUpdatedQuestionResponse(question);
     }

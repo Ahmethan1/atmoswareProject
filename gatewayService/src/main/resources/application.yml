@@ -20,6 +20,18 @@ spring:
           predicates[0]: Path=/eureka/web
           filters[0]: SetPath=/
           uri: http://localhost:9000
+        routes[1]:
+          id: questionService
+          predicates[0]: Path=/questionservice/api/v1/**
+          uri: lb://QUESTIONSERVICE
+        routes[2]:
+          id: examService
+          predicates[0]: Path=/examservice/api/v1/**
+          uri: lb://EXAMSERVICE
+        routes[3]:
+          id: managementService
+          predicates[0]: Path=/managementservice/api/v1/**
+          uri: lb://MANAGEMENTSERVICE
     config:
       enabled: false
     import-check:

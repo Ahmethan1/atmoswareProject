@@ -32,9 +32,10 @@ public class GlobalExceptionHandler {
 
         Map<String,String> validationErrors = new HashMap<>();
 
-        exception.getBindingResult().getFieldErrors().stream().map(error ->
-                validationErrors.put(error.getField(),error.getDefaultMessage())
-        ).toList();
+        exception.getBindingResult().getFieldErrors().forEach(fieldError ->{
+                validationErrors.put(fieldError.getField(),fieldError.getDefaultMessage());}
+        );
+
 
         ValidationProblemDetails validationProblemDetails = new ValidationProblemDetails();
         validationProblemDetails.setErrors(validationErrors);
